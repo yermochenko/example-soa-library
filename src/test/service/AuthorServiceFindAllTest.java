@@ -9,7 +9,8 @@ import domain.Author;
 
 public class AuthorServiceFindAllTest {
 	public static void main(String[] args) {
-		AuthorService authorService = ServiceLocator.getAuthorService();
+		ServiceLocator locator = new ServiceLocator();
+		AuthorService authorService = locator.getAuthorService();
 		List<Author> authors = authorService.findAll();
 		System.out.println("Список всех авторов");
 		System.out.println("===================");

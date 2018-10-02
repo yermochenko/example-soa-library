@@ -9,7 +9,8 @@ import domain.Book;
 
 public class BookServiceFindByTitleTest {
 	public static void main(String[] args) {
-		BookService bookService = ServiceLocator.getBookService();
+		ServiceLocator locator = new ServiceLocator();
+		BookService bookService = locator.getBookService();
 		List<Book> books = bookService.findByTitle("книга");
 		System.out.println("Список всех книг, содержащих в названии строку «книга»");
 		System.out.println("======================================================");
