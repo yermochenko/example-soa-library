@@ -71,7 +71,7 @@ public class BookDaoFakeImpl implements BookDao {
 	public List<Book> readByAuthor(Long authorId) {
 		List<Book> result = new ArrayList<>();
 		for(Book book : books.values()) {
-			if((authorId == null && book.getAuthor() == null) || authorId.equals(book.getAuthor().getId())) {
+			if((authorId == null && book.getAuthor() == null) || (authorId != null && book.getAuthor() != null && authorId.equals(book.getAuthor().getId()))) {
 				result.add(book);
 			}
 		}
