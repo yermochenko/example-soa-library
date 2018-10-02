@@ -4,12 +4,12 @@ import java.util.List;
 
 import service.AuthorService;
 import test.Utility;
+import di.ServiceLocator;
 import domain.Author;
-import factory.ServiceFactory;
 
 public class AuthorServiceFindAllTest {
 	public static void main(String[] args) {
-		AuthorService authorService = ServiceFactory.getAuthorService();
+		AuthorService authorService = ServiceLocator.getAuthorService();
 		List<Author> authors = authorService.findAll();
 		System.out.println("Список всех авторов");
 		System.out.println("===================");
