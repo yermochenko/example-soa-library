@@ -19,16 +19,21 @@ public class IoCContainer {
 		dependencyInversionMap.put(BookDao.class, BookDaoFakeImpl.class);
 	}
 
+	private Map<Class<?>, Object> cache = new HashMap<>();
+
 	@SuppressWarnings("unchecked")
 	public <T> T get(Class<T> key) throws IoCException {
-		T object = null;
-		Class<?> value = dependencyInversionMap.get(key);
-		try {
-			if(value != null) {
-				object = (T)value.newInstance();
+		T object = (T)cache.get(key);
+		if(object == null) {
+			Class<?> value = dependencyInversionMap.get(key);
+			try {
+				if(value != null) {
+					object = (T)value.newInstance();
+					cache.put(key, object);
+				}
+			} catch(InstantiationException | IllegalAccessException e) {
+				throw new IoCException(e);
 			}
-		} catch(InstantiationException | IllegalAccessException e) {
-			throw new IoCException(e);
 		}
 		return object;
 	}
