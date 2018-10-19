@@ -14,7 +14,7 @@ public class BookServiceFindByTitleTest {
 	public static void main(String[] args) throws IoCException {
 		IoCConfigurer.configure();
 		IoCContainer ioc = new IoCContainer();
-		BookService bookService = ioc.getBookService();
+		BookService bookService = ioc.get(BookService.class);
 		List<Book> books = bookService.findByTitle("книга");
 		System.out.println("Список всех книг, содержащих в названии строку «книга»");
 		System.out.println("======================================================");

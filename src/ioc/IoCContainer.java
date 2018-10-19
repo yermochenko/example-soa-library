@@ -1,17 +1,13 @@
 package ioc;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import service.AuthorService;
-import service.AuthorServiceImpl;
-import service.BookService;
-import service.BookServiceImpl;
-import dao.AuthorDao;
-import dao.BookDao;
-
 public class IoCContainer {
 	private static Map<Class<?>, Class<?>> dependencyInversionMap = new HashMap<>();
+	private static Map<Class<?>, Map<Class<?>, Method>> dependencyInjectionMap = new HashMap<>();
 
 	private Map<Class<?>, Object> cache = new HashMap<>();
 
@@ -19,46 +15,47 @@ public class IoCContainer {
 	public <T> T get(Class<T> key) throws IoCException {
 		T object = (T)cache.get(key);
 		if(object == null) {
-			Class<?> value = dependencyInversionMap.get(key);
 			try {
+				Class<?> value = dependencyInversionMap.get(key);
 				if(value != null) {
 					object = (T)value.newInstance();
 					cache.put(key, object);
+					Map<Class<?>, Method> dependencies = dependencyInjectionMap.get(value);
+					if(dependencies != null) {
+						for(Map.Entry<Class<?>, Method> entry : dependencies.entrySet()) {
+							Class<?> dependency = entry.getKey();
+							Method injector = entry.getValue();
+							injector.invoke(object, get(dependency));
+						}
+					}
 				}
-			} catch(InstantiationException | IllegalAccessException e) {
+			} catch(InstantiationException | IllegalAccessException | InvocationTargetException e) {
 				throw new IoCException(e);
 			}
 		}
 		return object;
 	}
 
-	private AuthorService authorService = null;
-	public AuthorService getAuthorService() throws IoCException {
-		if(authorService == null) {
-			AuthorServiceImpl authorServiceImpl = new AuthorServiceImpl();
-			authorService = authorServiceImpl;
-			authorServiceImpl.setAuthorDao(get(AuthorDao.class));
-		}
-		return authorService;
-	}
-
-	private BookService bookService = null;
-	public BookService getBookService() throws IoCException {
-		if(bookService == null) {
-			BookServiceImpl bookServiceImpl = new BookServiceImpl();
-			bookService = bookServiceImpl;
-			bookServiceImpl.setAuthorDao(get(AuthorDao.class));
-			bookServiceImpl.setBookDao(get(BookDao.class));
-		}
-		return bookService;
-	}
-
 	public static void registerClass(String abstraction, String implemetation) throws IoCException {
+		registerClass(abstraction, implemetation, null);
+	}
+
+	public static void registerClass(String abstraction, String implemetation, Map<String, String> dependencies) throws IoCException {
 		try {
 			Class<?> actualAbstraction = Class.forName(abstraction);
 			Class<?> actualImplemetation = Class.forName(implemetation);
 			dependencyInversionMap.put(actualAbstraction, actualImplemetation);
-		} catch(ClassNotFoundException e) {
+			if(dependencies != null) {
+				Map<Class<?>, Method> actualDependencies = new HashMap<>();
+				dependencyInjectionMap.put(actualImplemetation, actualDependencies);
+				for(Map.Entry<String, String> entry : dependencies.entrySet()) {
+					Class<?> dependency = Class.forName(entry.getKey());
+					String injectorName = entry.getValue();
+					Method injector = actualImplemetation.getMethod(injectorName, dependency);
+					actualDependencies.put(dependency, injector);
+				}
+			}
+		} catch(ClassNotFoundException | NoSuchMethodException e) {
 			throw new IoCException(e);
 		}
 	}

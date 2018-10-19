@@ -14,7 +14,7 @@ public class AuthorServiceFindAllTest {
 	public static void main(String[] args) throws IoCException {
 		IoCConfigurer.configure();
 		IoCContainer ioc = new IoCContainer();
-		AuthorService authorService = ioc.getAuthorService();
+		AuthorService authorService = ioc.get(AuthorService.class);
 		List<Author> authors = authorService.findAll();
 		System.out.println("Список всех авторов");
 		System.out.println("===================");
