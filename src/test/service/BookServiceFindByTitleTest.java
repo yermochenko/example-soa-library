@@ -1,5 +1,6 @@
 package test.service;
 
+import ioc.IoCConfigurer;
 import ioc.IoCContainer;
 import ioc.IoCException;
 
@@ -11,6 +12,7 @@ import domain.Book;
 
 public class BookServiceFindByTitleTest {
 	public static void main(String[] args) throws IoCException {
+		IoCConfigurer.configure();
 		IoCContainer ioc = new IoCContainer();
 		BookService bookService = ioc.getBookService();
 		List<Book> books = bookService.findByTitle("книга");

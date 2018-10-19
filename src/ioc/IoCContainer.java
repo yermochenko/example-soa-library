@@ -9,15 +9,9 @@ import service.BookService;
 import service.BookServiceImpl;
 import dao.AuthorDao;
 import dao.BookDao;
-import dao.fake.AuthorDaoFakeImpl;
-import dao.fake.BookDaoFakeImpl;
 
 public class IoCContainer {
 	private static Map<Class<?>, Class<?>> dependencyInversionMap = new HashMap<>();
-	static {
-		dependencyInversionMap.put(AuthorDao.class, AuthorDaoFakeImpl.class);
-		dependencyInversionMap.put(BookDao.class, BookDaoFakeImpl.class);
-	}
 
 	private Map<Class<?>, Object> cache = new HashMap<>();
 
@@ -57,5 +51,15 @@ public class IoCContainer {
 			bookServiceImpl.setBookDao(get(BookDao.class));
 		}
 		return bookService;
+	}
+
+	public static void registerClass(String abstraction, String implemetation) throws IoCException {
+		try {
+			Class<?> actualAbstraction = Class.forName(abstraction);
+			Class<?> actualImplemetation = Class.forName(implemetation);
+			dependencyInversionMap.put(actualAbstraction, actualImplemetation);
+		} catch(ClassNotFoundException e) {
+			throw new IoCException(e);
+		}
 	}
 }
