@@ -6,6 +6,7 @@ import java.util.Map;
 
 import dao.AuthorDao;
 import dao.BookDao;
+import dao.DaoException;
 import domain.Author;
 import domain.Book;
 
@@ -14,22 +15,26 @@ public class BookServiceImpl implements BookService {
 	private BookDao bookDao;
 
 	@Override
-	public List<Book> findByTitle(String title) {
-		List<Book> books = bookDao.readByTitle(title);
-		Map<Long, Author> authors = new HashMap<>();
-		for(Book book : books) {
-			Author author = book.getAuthor();
-			if(author != null) {
-				Long id = author.getId();
-				author = authors.get(id);
-				if(author == null) {
-					author = authorDao.read(id);
-					authors.put(id, author);
+	public List<Book> findByTitle(String title) throws ServiceException {
+		try {
+			List<Book> books = bookDao.readByTitle(title);
+			Map<Long, Author> authors = new HashMap<>();
+			for(Book book : books) {
+				Author author = book.getAuthor();
+				if(author != null) {
+					Long id = author.getId();
+					author = authors.get(id);
+					if(author == null) {
+						author = authorDao.read(id);
+						authors.put(id, author);
+					}
+					book.setAuthor(author);
 				}
-				book.setAuthor(author);
 			}
+			return books;
+		} catch(DaoException e) {
+			throw new ServiceException(e);
 		}
-		return books;
 	}
 
 	public void setAuthorDao(AuthorDao authorDao) {

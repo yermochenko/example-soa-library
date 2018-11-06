@@ -1,0 +1,8 @@
+USE `soa_library_db`;
+
+CREATE TABLE `authors` (
+	`id` INTEGER NOT NULL AUTO_INCREMENT,
+	`first_name` VARCHAR(200) NOT NULL,
+	`last_name` VARCHAR(200) NOT NULL,
+	PRIMARY KEY (`id`)
+) ENGINE=INNODB DEFAULT CHARACTER SET utf8;

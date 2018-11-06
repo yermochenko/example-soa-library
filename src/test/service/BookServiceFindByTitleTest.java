@@ -7,11 +7,12 @@ import ioc.IoCException;
 import java.util.List;
 
 import service.BookService;
+import service.ServiceException;
 import test.Utility;
 import domain.Book;
 
 public class BookServiceFindByTitleTest {
-	public static void main(String[] args) throws IoCException {
+	public static void main(String[] args) throws IoCException, ServiceException {
 		IoCConfigurer.configure();
 		IoCContainer ioc = new IoCContainer();
 		BookService bookService = ioc.get(BookService.class);

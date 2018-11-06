@@ -7,11 +7,12 @@ import ioc.IoCException;
 import java.util.List;
 
 import service.AuthorService;
+import service.ServiceException;
 import test.Utility;
 import domain.Author;
 
 public class AuthorServiceFindAllTest {
-	public static void main(String[] args) throws IoCException {
+	public static void main(String[] args) throws IoCException, ServiceException {
 		IoCConfigurer.configure();
 		IoCContainer ioc = new IoCContainer();
 		AuthorService authorService = ioc.get(AuthorService.class);

@@ -3,11 +3,11 @@ package dao;
 import domain.Entity;
 
 public interface Dao<T extends Entity> {
-	Long create(T entity);
+	Long create(T entity) throws DaoException;
 
-	T read(Long id);
+	T read(Long id) throws DaoException;
 
-	void update(T entity);
+	void update(T entity) throws DaoException;
 
-	void delete(Long id);
+	void delete(Long id) throws DaoException;
 }
