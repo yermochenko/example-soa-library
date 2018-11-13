@@ -45,6 +45,15 @@
 		<url-pattern>/author/list.html</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>AuthorEditServlet</servlet-name>
+		<servlet-class>web.author.AuthorEditServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AuthorEditServlet</servlet-name>
+		<url-pattern>/author/edit.html</url-pattern>
+	</servlet-mapping>
+
 	<listener>
 		<listener-class>web.ApplicationStartListener</listener-class>
 	</listener>

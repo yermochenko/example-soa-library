@@ -6,4 +6,6 @@ import domain.Author;
 
 public interface AuthorService {
 	List<Author> findAll() throws ServiceException;
+
+	Author findById(Long id) throws ServiceException;
 }

@@ -18,6 +18,15 @@ public class AuthorServiceImpl implements AuthorService {
 		}
 	}
 
+	@Override
+	public Author findById(Long id) throws ServiceException {
+		try {
+			return authorDao.read(id);
+		} catch(DaoException e) {
+			throw new ServiceException(e);
+		}
+	}
+
 	public void setAuthorDao(AuthorDao authorDao) {
 		this.authorDao = authorDao;
 	}
