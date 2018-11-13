@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public class IoCContainer {
+public class IoCContainer implements AutoCloseable {
 	private static Map<Class<?>, Class<?>> dependencyInversionMap = new HashMap<>();
 	private static Map<Class<?>, Map<Class<?>, Method>> dependencyInjectionMap = new HashMap<>();
 	private static Map<Class<?>, Factory<?>> factories = new HashMap<>();
@@ -74,6 +74,15 @@ public class IoCContainer {
 			factories.put(actualAbstraction, (Factory<?>)actualFactory.newInstance());
 		} catch(ClassNotFoundException | InstantiationException | IllegalAccessException e) {
 			throw new IoCException(e);
+		}
+	}
+
+	@Override
+	public void close() throws Exception {
+		for(Object object : cache.values()) {
+			if(object instanceof AutoCloseable) {
+				try { ((AutoCloseable)object).close(); } catch(Exception e) {}
+			}
 		}
 	}
 }
