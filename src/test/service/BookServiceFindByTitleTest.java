@@ -26,14 +26,16 @@ public class BookServiceFindByTitleTest {
 	public static void main(String[] args) throws IoCException, ServiceException, PoolException {
 		ConnectionPool.getInstance().init("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/soa_library_db?useUnicode=true&characterEncoding=UTF-8", "soa_library_user", "soa_library_password");
 		IoCConfigurer.configure();
-		IoCContainer ioc = new IoCContainer();
-		BookService bookService = ioc.get(BookService.class);
-		System.out.println("======================================================");
-		output(bookService, "ночи");
-		output(bookService, "братья");
-		output(bookService, "и");
-		output(bookService, "полк");
-		output(bookService, "рота");
-		ConnectionPool.getInstance().destroy();
+		try(IoCContainer ioc = new IoCContainer()) {
+			BookService bookService = ioc.get(BookService.class);
+			System.out.println("======================================================");
+			output(bookService, "ночи");
+			output(bookService, "братья");
+			output(bookService, "и");
+			output(bookService, "полк");
+			output(bookService, "рота");
+		} finally {
+			ConnectionPool.getInstance().destroy();
+		}
 	}
 }
