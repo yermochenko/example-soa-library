@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                             http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1"
+         metadata-complete="true">
+	<display-name>Книжный каталог</display-name>
+
+	<context-param>
+		<param-name>jdbc-driver</param-name>
+		<param-value>com.mysql.jdbc.Driver</param-value>
+	</context-param>
+	<context-param>
+		<param-name>jdbc-url</param-name>
+		<param-value>jdbc:mysql://localhost/soa_library_db?useUnicode=true&amp;characterEncoding=UTF-8</param-value>
+	</context-param>
+	<context-param>
+		<param-name>jdbc-user</param-name>
+		<param-value>soa_library_user</param-value>
+	</context-param>
+	<context-param>
+		<param-name>jdbc-password</param-name>
+		<param-value>soa_library_password</param-value>
+	</context-param>
+	<context-param>
+		<param-name>pool-min-size</param-name>
+		<param-value>1</param-value>
+	</context-param>
+	<context-param>
+		<param-name>pool-max-size</param-name>
+		<param-value>100</param-value>
+	</context-param>
+	<context-param>
+		<param-name>pool-connection-validation-timeout</param-name>
+		<param-value>0</param-value>
+	</context-param>
+
+	<servlet>
+		<servlet-name>AuthorListServlet</servlet-name>
+		<servlet-class>web.author.AuthorListServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AuthorListServlet</servlet-name>
+		<url-pattern>/author/list.html</url-pattern>
+	</servlet-mapping>
+
+	<listener>
+		<listener-class>web.ApplicationStartListener</listener-class>
+	</listener>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+</web-app>
