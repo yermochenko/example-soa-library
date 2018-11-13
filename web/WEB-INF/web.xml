@@ -54,6 +54,15 @@
 		<url-pattern>/author/edit.html</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>AuthorSaveServlet</servlet-name>
+		<servlet-class>web.author.AuthorSaveServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AuthorSaveServlet</servlet-name>
+		<url-pattern>/author/save.html</url-pattern>
+	</servlet-mapping>
+
 	<listener>
 		<listener-class>web.ApplicationStartListener</listener-class>
 	</listener>

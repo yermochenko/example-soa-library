@@ -27,6 +27,19 @@ public class AuthorServiceImpl implements AuthorService {
 		}
 	}
 
+	@Override
+	public void save(Author author) throws ServiceException {
+		try {
+			if(author.getId() != null) {
+				authorDao.update(author);
+			} else {
+				authorDao.create(author);
+			}
+		} catch(DaoException e) {
+			throw new ServiceException(e);
+		}
+	}
+
 	public void setAuthorDao(AuthorDao authorDao) {
 		this.authorDao = authorDao;
 	}
