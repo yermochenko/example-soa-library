@@ -78,7 +78,7 @@ public class IoCContainer implements AutoCloseable {
 	}
 
 	@Override
-	public void close() throws Exception {
+	public void close() {
 		for(Object object : cache.values()) {
 			if(object instanceof AutoCloseable) {
 				try { ((AutoCloseable)object).close(); } catch(Exception e) {}
