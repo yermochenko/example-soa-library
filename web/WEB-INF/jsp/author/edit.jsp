@@ -26,4 +26,11 @@
 		<input id="last-name" name="lastName" value="${author.lastName}"><br>
 		<button>Сохранить</button>
 	</form>
+	<c:if test="${not empty author.id}">
+		<c:url var="deleteUrl" value="/author/delete.html"/>
+		<form action="${deleteUrl}" method="post">
+			<input type="hidden" name="id" value="${author.id}">
+			<button>Удалить</button>
+		</form>
+	</c:if>
 </u:html>

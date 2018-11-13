@@ -10,4 +10,6 @@ public interface AuthorService {
 	Author findById(Long id) throws ServiceException;
 
 	void save(Author author) throws ServiceException;
+
+	void delete(Long id) throws ServiceException;
 }

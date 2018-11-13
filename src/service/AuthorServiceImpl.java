@@ -40,6 +40,15 @@ public class AuthorServiceImpl implements AuthorService {
 		}
 	}
 
+	@Override
+	public void delete(Long id) throws ServiceException {
+		try {
+			authorDao.delete(id);
+		} catch(DaoException e) {
+			throw new ServiceException(e);
+		}
+	}
+
 	public void setAuthorDao(AuthorDao authorDao) {
 		this.authorDao = authorDao;
 	}

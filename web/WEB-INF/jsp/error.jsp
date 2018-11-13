@@ -4,7 +4,18 @@
 <%@taglib tagdir="/WEB-INF/tags" prefix="u"%>
 
 <u:html title="Ошибка">
-	<c:if test="${not empty message}">
-		<p style="color: red;">${message}</p>
-	</c:if>
+	<c:choose>
+		<c:when test="${not empty message}">
+			<p style="color: red;">${message}</p>
+		</c:when>
+		<c:when test="${not empty pageContext.exception}">
+			<p style="color: red;">Проблемы с сервером. Обратитесь к системному администратору</p>
+		</c:when>
+		<c:when test="${not empty pageContext.errorData.requestURI}">
+			<p style="color: red;">Запрошенная страница ${pageContext.errorData.requestURI} не найдена на сервере</p>
+		</c:when>
+		<c:otherwise>
+			<p style="color: red;">Непредвиденная ошибка приложения</p>
+		</c:otherwise>
+	</c:choose>
 </u:html>

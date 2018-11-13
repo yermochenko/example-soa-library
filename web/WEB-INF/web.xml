@@ -63,6 +63,15 @@
 		<url-pattern>/author/save.html</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>AuthorDeleteServlet</servlet-name>
+		<servlet-class>web.author.AuthorDeleteServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AuthorDeleteServlet</servlet-name>
+		<url-pattern>/author/delete.html</url-pattern>
+	</servlet-mapping>
+
 	<listener>
 		<listener-class>web.ApplicationStartListener</listener-class>
 	</listener>
@@ -70,4 +79,14 @@
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/jsp/error.jsp</location>
+	</error-page>
+
+	<error-page>
+		<exception-type>javax.servlet.ServletException</exception-type>
+		<location>/WEB-INF/jsp/error.jsp</location>
+	</error-page>
 </web-app>
