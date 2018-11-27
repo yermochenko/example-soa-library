@@ -3,32 +3,36 @@ package web.author;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import domain.Author;
-import ioc.IoCContainer;
-import ioc.IoCException;
 import service.AuthorService;
 import service.ServiceException;
+import web.Action;
+import web.ActionResult;
 
-public class AuthorEditServlet extends HttpServlet {
+public class AuthorEditActionImpl implements Action {
+	private AuthorService service;
+
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public ActionResult exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Long id = null;
 		try {
 			id = Long.parseLong(req.getParameter("id"));
 		} catch(NumberFormatException e) {}
 		if(id != null) {
-			try(IoCContainer ioc = new IoCContainer()) {
-				AuthorService service = ioc.get(AuthorService.class);
+			try {
 				Author author = service.findById(id);
 				req.setAttribute("author", author);
-			} catch(ServiceException | IoCException e) {
+			} catch(ServiceException e) {
 				throw new ServletException(e);
 			}
 		}
-		req.getRequestDispatcher("/WEB-INF/jsp/author/edit.jsp").forward(req, resp);
+		return null;
+	}
+
+	public void setAuthorService(AuthorService service) {
+		this.service = service;
 	}
 }

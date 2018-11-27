@@ -37,39 +37,12 @@
 	</context-param>
 
 	<servlet>
-		<servlet-name>AuthorListServlet</servlet-name>
-		<servlet-class>web.author.AuthorListServlet</servlet-class>
+		<servlet-name>DispatcherServlet</servlet-name>
+		<servlet-class>web.DispatcherServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>AuthorListServlet</servlet-name>
-		<url-pattern>/author/list.html</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>AuthorEditServlet</servlet-name>
-		<servlet-class>web.author.AuthorEditServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>AuthorEditServlet</servlet-name>
-		<url-pattern>/author/edit.html</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>AuthorSaveServlet</servlet-name>
-		<servlet-class>web.author.AuthorSaveServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>AuthorSaveServlet</servlet-name>
-		<url-pattern>/author/save.html</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>AuthorDeleteServlet</servlet-name>
-		<servlet-class>web.author.AuthorDeleteServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>AuthorDeleteServlet</servlet-name>
-		<url-pattern>/author/delete.html</url-pattern>
+		<servlet-name>DispatcherServlet</servlet-name>
+		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
 
 	<listener>

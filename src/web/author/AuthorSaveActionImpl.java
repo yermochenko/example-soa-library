@@ -3,33 +3,38 @@ package web.author;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import domain.Author;
-import ioc.IoCContainer;
-import ioc.IoCException;
 import service.AuthorService;
 import service.ServiceException;
+import web.Action;
+import web.ActionResult;
+import web.ActionResultType;
 
-public class AuthorSaveServlet extends HttpServlet {
+public class AuthorSaveActionImpl implements Action {
+	private AuthorService service;
+
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public ActionResult exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		try {
 			Author author = getAuthor(req);
-			try(IoCContainer ioc = new IoCContainer()) {
-				AuthorService service = ioc.get(AuthorService.class);
+			try {
 				service.save(author);
-				resp.sendRedirect(getServletContext().getContextPath() + "/author/list.html");
-			} catch(ServiceException | IoCException e) {
+				return new ActionResult("/author/list.html");
+			} catch(ServiceException e) {
 				throw new ServletException(e);
 			}
 		} catch(IllegalArgumentException e) {
 			req.setAttribute("message", e.getMessage());
-			req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, resp);
+			return new ActionResult("/error", ActionResultType.FORWARD);
 		}
+	}
+
+	public void setAuthorService(AuthorService service) {
+		this.service = service;
 	}
 
 	private Author getAuthor(HttpServletRequest req) {
